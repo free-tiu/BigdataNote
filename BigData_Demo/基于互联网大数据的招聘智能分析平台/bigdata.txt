@@ -1,0 +1,59 @@
+vim /etc/udev/rules.d/70-persistent-net.rules
+将”eth0”网卡一行删除，“eth1”改成“eth0”
+复制ATTR{address}==“ ”里的内容 保存退出
+vim /etc/sysconfig/network-scripts/ifcfg-eth0
+修改物理IP地址（HWADDR），将上一步复制的内容黏贴
+修改IP（IPADDR），将ONBOOT改成yes，BOOTPROTO改成static，增加网关	GATEWAY和DNS 保存退出
+
+vim /etc/sysconfig/network
+修改主机名称HOSTNAME 保存退出
+vim /etc/hosts
+修改配置文件，添加新克隆虚拟机修改IP后的主机IP和主机名，本机IP和本机主机名也添加上 保存退出
+重启系统reboot
+
+vim /etc/sudoers
+在root		ALL=(ALL)		ALL下新添加一行相同的，将root改成需要修改权限的用户名 保存退出
+	用户名 ALL=(ALL) ALL	或	用户名 ALL=(ALL) NOPASSWD:ALL
+
+1）创建文件夹：
+	/opt下创建module（解压后的jar包）、software（存jar包）文件夹
+
+2）修改以上两个文件夹所有者：
+	sudo chawn 所有者：所有者的组 module/ software/
+
+3）上传jar包到software，后解压：
+	tar -zxvf 压缩包名 -C 指定解压目录
+
+
+2、配置JDK：
+  JDK包解压完成后进入到解压好的文件夹目录下，pwd查看当前所在目录，复制当前所在目录
+  sudo vim /etc/profile
+  修改配置文件（shift定位到文本末尾，切换到下一行o），添加以下字段
+##JAVA_HOME
+export JAVA_HOME=/opt/module/jdk1.8.0_144
+export PATH=$PATH:$JAVA_HOME/bin
+	或者
+JAVA_HOME=/opt/module/jdk1.8.0_05
+PATH=$JAVA_HOME/bin:$PATH
+CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+export JAVA_HOME
+export PATH
+export CLASSPATH
+
+3、配置Hadoop：
+  解压Hadoop包，解压好后进入Hadoop目录里，复制当前所在目录
+  sudo vim /etc/profile
+  修改配置文件，添加以下字段
+##HADOOP_HOME
+export HADOOP_HOME=/opt/module/hadoop-2.7.5
+export PATH=$PATH:$HADOOP_HOME/bin
+export PATH=$PATH:$HADOOP_HOME/sbin
+
+4、生效文件：
+source /etc/profile
+
+5、查看是否安装成功：
+java -version 和 hadoop version 
+  重启(java和hadoop命令不能用再重启) 
+sync
+sudo reboot
