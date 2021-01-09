@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <!DOCTYPE xml> -->
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+	<property>
+		<name>dfs.replication</name>
+		<!-- 设置副本数为1 -->
+		<value>1</value>
+	</property>
+</configuration>
